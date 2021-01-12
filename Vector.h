@@ -124,9 +124,6 @@ T* vector<T>::get(int pos)
     return &myArray[pos];
 
 
-
-
-
 }
 template<class T>
 void vector<T>::erase(int pos)

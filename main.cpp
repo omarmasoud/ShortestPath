@@ -75,7 +75,7 @@ int main()
 //}
 
     //trying graphs and adjacency list
-    Graph<int> omar(10);
+    Graph<int> omar(4);
     for (int i = 0; i < 4; i++) {
         omar.addVertex(rand());
     }
@@ -84,13 +84,15 @@ int main()
     omar.ConnectBetween(0, 1,2000000000);
     omar.ConnectBetween(0, 3,4);
     omar.ConnectBetween(1, 2,2);
+    omar.ConnectBetween(1, 2,404);
     omar.ConnectBetween(2, 3,10);
+    omar.ConnectBetween(3, 1,10);
     omar.display();
     omar.displayAdjacencylist();
- //  omar.removeVertex(2);
+  omar.removeVertex(2);
     omar.display();
     omar.displayAdjacencylist();
-
+exit(1);
 
 
 /* vector<int> omar;

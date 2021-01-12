@@ -8,7 +8,7 @@ public:
     // Vertex<T>& operator=(const Vertex<T>RHS);
     int num;
 
-    int previousVisitor;//might be used in shortest path algorithm
+    //int previousVisitor;//might be used in shortest path algorithm
     T data;
     Vertex<T>* next;
     Vertex(int num, T data);
@@ -40,7 +40,7 @@ public:
     void addVertex(T data);
     void ConnectBetween(int from, int to,int weight);
     void removeVertex(int num);
-    void removeEdgeInBetween(int from, int to);
+    //void removeEdgeInBetween(int from, int to);
     void printShortestPathfrom(int from,int to);
     void display();
     void displayAdjacencylist();
@@ -57,7 +57,7 @@ using namespace std;
 template<class T>
 Vertex<T>::Vertex(int num,T data):num(num),data(data)
 {
-    vector<int> adj();
+   // vector<int> adj();
 }
 template<class T>
 Vertex<T>::Vertex(){}
@@ -86,7 +86,7 @@ Graph<T>::Graph(int size):numVertices(0),size(size)
     for(int i=0;i<size;i++)
     {
     //   cout<<"constructing lists"<<endl;
-       for(int j=0;j<size;j++) {
+        for(int j=0;j<size;j++) {
            AdjacencyList.get(i)->pushback(0);
        }
     }
@@ -144,7 +144,6 @@ void Graph<T>:: removeVertex(int num)//need modifications
     if(num<vertices.mysize())
     {
 
-
             for (int j = 0; j < edges.mysize(); j++)
             {
                 if ((edges.get(j)->ter1 == num) || (edges.get(j)->ter2== num)) {
@@ -156,17 +155,15 @@ void Graph<T>:: removeVertex(int num)//need modifications
                 vertices.get(k)->num=vertices.get(k)->num-1;
             }
             vertices.erase(num);
+        AdjacencyList.erase(num);
             for(int i=0;i<AdjacencyList.mysize();i++)
             {
                 AdjacencyList.get(i)->erase(num);
             }
-           for(int i=0;i<AdjacencyList.mysize();i++)
-          {
-              AdjacencyList.get(i)->erase(num);
-          }
 
-            AdjacencyList.erase(num);
-            ConnectionList.erase(num);
+
+
+         //   ConnectionList.erase(num);
             numVertices--;
 
 
