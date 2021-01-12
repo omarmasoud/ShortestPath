@@ -82,17 +82,19 @@ int main()
 
     omar.ConnectBetween(0, 2,10);
     omar.ConnectBetween(0, 1,2000000000);
-    omar.ConnectBetween(0, 3,4);
+    omar.ConnectBetween(0, 3,100);
     omar.ConnectBetween(1, 2,2);
-    omar.ConnectBetween(1, 2,404);
+    omar.ConnectBetween(1, 3,404);
     omar.ConnectBetween(2, 3,10);
     omar.ConnectBetween(3, 1,10);
-    omar.display();
+  //  omar.display();
     omar.displayAdjacencylist();
-  omar.removeVertex(2);
-    omar.display();
+    cout<<"vertices size"<<omar.vertices.mysize()<<endl;
+  //omar.removeVertex(2);
+   // omar.display();
     omar.displayAdjacencylist();
-exit(1);
+    omar.printShortestPathfrom(0,3);
+
 
 
 /* vector<int> omar;

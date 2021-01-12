@@ -16,6 +16,7 @@ public:
     void insert(T element, int pos);
     void pushback(T element);
     //void pushfront(T element);
+    void Recapacity(int size);
     void resize(int size);
     T* get(int pos);
     void erase(int pos);
@@ -137,15 +138,23 @@ void vector<T>::erase(int pos)
         }
         size--;
     }
-    else { cerr << "pos in appropriate for deletion" << endl; }
+    else { cerr << "pos in appropriate for deletion" << endl;
+    exit(1);
+    }
 }
 template<class T>
 int vector<T> ::mysize() {
     return size;
 }
 template<class T>
-void vector<T>::resize(int newsize)
+void vector<T>::resize(int size) {
+    this->size=size;
+}
+
+template<class T>
+void vector<T>::Recapacity(int newsize)
 {
+
     if (newsize == mysize()) return;
     else if(size<0)
     {
