@@ -75,22 +75,41 @@ int main()
 //}
 
     //trying graphs and adjacency list
-    Graph<int> omar;
+    Graph<int> omar(10);
     for (int i = 0; i < 4; i++) {
         omar.addVertex(rand());
     }
-    omar.ConnectBetween(0, 2);
-    omar.ConnectBetween(0, 1);
-    omar.ConnectBetween(0, 3);
-    omar.ConnectBetween(1, 2);
-    omar.ConnectBetween(2, 3);
-    //int num = omar.vertices.get(3).num;
-    //cout << num;
+
+    omar.ConnectBetween(0, 2,10);
+    omar.ConnectBetween(0, 1,2000000000);
+    omar.ConnectBetween(0, 3,4);
+    omar.ConnectBetween(1, 2,2);
+    omar.ConnectBetween(2, 3,10);
     omar.display();
-    cout << "size of adj list 1 is " << omar.adjList.get(0)->mysize() << endl;
-    cout << "size is" << omar.adjList.mysize() << endl;
+    omar.displayAdjacencylist();
+ //  omar.removeVertex(2);
+    omar.display();
+    omar.displayAdjacencylist();
 
 
+
+/* vector<int> omar;
+ cout<<"size is"<<omar.mysize()<<endl;
+    cout<<"capacity is"<<omar.mycapacity()<<endl;
+ for(int i=0;i<10;i++)
+ {
+     omar.insert(10,i);
+ }
+ omar.pushback(200);
+ omar.display();
+    cout<<"size is"<<omar.mysize()<<endl;
+    cout<<"capacity is"<<omar.mycapacity()<<endl;
+  //  omar.resize(50);
+  //  omar.display();
+    cout<<"size is"<<omar.mysize()<<endl;
+    cout<<"capacity is"<<omar.mycapacity()<<endl;
+
+cout<<*omar[10]<<endl;*/
     return 0;
 }
 

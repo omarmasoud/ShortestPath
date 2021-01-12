@@ -4,8 +4,14 @@ template<class T>
 class vector {
 public:
     vector<T>& operator =(const vector < T >& RHS);
+  /* vector with initial values*/
+ // vector(T defaultvalue);
+  T* operator [](int pos);
+   void set(T element, int pos);
     ~vector();
+    vector(int capaicty);
     int mysize();
+    int mycapacity();
     vector();
     void insert(T element, int pos);
     void pushback(T element);
@@ -30,40 +36,55 @@ vector<T>::vector():capacity(10),size(0)
 template<class T>
 void vector<T>::insert(T element, int pos)
 {
-    if(!(pos==0)||(pos>size))
-    {
-        if (capacity > size) {
-            for (int i = size; i >pos; i--)
-            {
-                myArray[i]=myArray[i-1];
-            }
-            myArray[pos]=element;
+
+
+    if (pos >= 0  ){
+        if(pos==size&&capacity>size)
+        {
+            myArray[pos] = element;
             size++;
         }
-        else if(capacity==size)
-        {
-            allocateMoreMemory();
-            for (int i = size; i > pos; i--)
-            {
+        else if (capacity > size) {
+            for (int i = size; i > pos; i--) {
                 myArray[i] = myArray[i - 1];
             }
             myArray[pos] = element;
             size++;
-
+        } else if (capacity == size) {
+            allocateMoreMemory();
+            for (int i = size; i > pos; i--) {
+                myArray[i] = myArray[i - 1];
+            }
+            myArray[pos] = element;
+            size++;
         }
     }
+    else{
+        cerr<<"out of boundary insertion"<<endl;
+        exit(2);
+    }
 }
-
+template<class T>
+vector<T>::vector(int capaicty):capacity(capaicty),size(0)
+{
+    myArray= new T[capaicty];
+}
+template<class T>
+void vector<T>::set(T element,int pos)
+{
+    if(pos>=0)myArray[pos]=element;
+}
 
 template<class T>
 void vector<T>::pushback(T element)
 {
-    if(size==capacity)
+    this->insert(element,this->mysize());
+   /* if(size==capacity)
     {
         allocateMoreMemory();
     }
     myArray[size] = element;
-    size++;
+    size++;*/
 }
 
 //template<class T>
@@ -81,7 +102,7 @@ void vector<T>::allocateMoreMemory()
         {
             replacer[i] = myArray[i];
         }
-        delete myArray;
+        delete[] myArray;
         myArray = replacer;
     }
     else {
@@ -101,6 +122,10 @@ T* vector<T>::get(int pos)
 {
 
     return &myArray[pos];
+
+
+
+
 
 }
 template<class T>
@@ -133,13 +158,13 @@ void vector<T>::resize(int newsize)
     else
     {
         if (newsize < size)size = newsize;
-        T arr = new (nothrow)T[size];
+        T* arr = new (nothrow)T[size];
 
         for (int i = 0; i < size; i++)
         {
             arr[i] = myArray[i];
         }
-        delete myArray;
+        delete[] myArray;
         capacity = newsize;
 
         myArray = arr;
@@ -163,5 +188,23 @@ vector<T>&vector<T>:: operator =(const vector < T >& RHS)
 template<class T>
 vector<T> :: ~vector()
 {
-    delete [] myArray ;
+ delete[]myArray;
+  // cout<<"vector destructor"<<endl;
 }
+template<class T>
+int vector<T>::mycapacity() {
+    return this->capacity;
+}
+template<class T>
+T* vector<T>:: operator [](int pos)
+        {
+            return this->get(pos);
+        }
+/*
+template<class T>
+vector<T>::vector(T defaultvalue)
+        {
+            for (int i = 0; i <capacity ; ++i) {
+                myArray[i]=defaultvalue;
+            }
+        }*/
