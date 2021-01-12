@@ -227,47 +227,36 @@ template<class T>
 void Graph<T>::printShortestPathfrom(int from, int to)
 {//Dijkstra algorithm
 
-    if (!(from >= 0 && from < numVertices) && !(to >= 0 && to < numVertices))
-    {
-        cerr << "insert in boundary vertices" << endl;
-        exit(1);
-    }
     bool* visited = new bool[numVertices];
     int* distances = new int[numVertices];
-    //int previousnode[numVertices];
+
 
     for (int i = 0; i < numVertices; i++)
     {
-        visited[i];
+        visited[i] = false;
         distances[i] = INT_MAX;
     }
-    cout << "awel habda be salam" << endl;
-    for (int i = 0; i < AdjacencyList.get(from)->mysize(); ++i)
+
+    distances[from] = 0;
+
+
+
+    //visited[leastindex] = 1;
+    for (int i = 0; i < numVertices - 1; i++)
     {
-        if (*AdjacencyList.get(from)->get(i) != 0)
+        int leastindex = LeastDistanceindex(distances, visited);
+     //   cout<<"least index is "<<LeastDistanceindex(distances, visited)<<endl;
+        visited[leastindex] = true;
+        for (int j = 0; j < numVertices; j++)
         {
-            distances[i] = *AdjacencyList.get(from)->get(i);
-        }
-    }
-    cout << "tany habda be salam" << endl;
-    visited[from] = 1;
-    distances[from]=0;
+            if ((*AdjacencyList.get(leastindex)->get(j)!= 0)&&(*AdjacencyList.get(leastindex)->get(j) + distances[leastindex] < distances[j])
+                && !visited[j] )
 
-
-
-    int leastindex = this->LeastDistanceindex(distances, visited);
-    visited[leastindex] = 1;
-    for (int i = 0; i<numVertices - 1; i++)
-    {
-
-
-
-        for (int i = 0; i < numVertices; i++)
-        {
-            if (*AdjacencyList.get(leastindex)->get(i) + distances[leastindex] < distances[i] && !visited[i])
             {
-                distances[i] = *AdjacencyList.get(leastindex)->get(i) + distances[leastindex];
+                distances[j] = *AdjacencyList.get(leastindex)->get(j) + distances[leastindex];
+                cout<<"meh" <<*AdjacencyList.get(leastindex)->get(j)<<endl;
             }
+           // cout<<distances[j]<<endl;
 
         }
     }
@@ -277,24 +266,20 @@ void Graph<T>::printShortestPathfrom(int from, int to)
     }
     delete[]visited;
     delete[]distances;
-
-
-
-
-
 }
 template<class T>
 int Graph<T>::LeastDistanceindex(int distances[], bool visited[])
 {
-    int leastindex , leastdistance;
-    leastdistance = INT_MAX;
-    for (int i = 0; i < this->numVertices; i++)
+    int leastindex;
+    int leastdistance = INT_MAX;
+    for (int i = 0; i < numVertices; i++)
     {
-        if (distances[i] < leastdistance && visited[i] == 0)
+        if (distances[i] <= leastdistance && visited[i] == false)
         {
             leastdistance = distances[i];
             leastindex = i;
         }
     }
+    cout<<"least "<<leastindex<<endl;
     return leastindex;
 }

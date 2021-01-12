@@ -6,7 +6,7 @@ public:
     vector<T>& operator =(const vector < T >& RHS);
   /* vector with initial values*/
  // vector(T defaultvalue);
-  T* operator [](int pos);
+  T operator [](int pos);
    void set(T element, int pos);
     ~vector();
     vector(int capaicty);
@@ -39,13 +39,13 @@ void vector<T>::insert(T element, int pos)
 {
 
 
-    if (pos >= 0  ){
+    if (pos >= 0 ){
         if(pos==size&&capacity>size)
         {
             myArray[pos] = element;
             size++;
         }
-        else if (capacity > size) {
+        else if( (pos<size)&&(capacity > size) ){
             for (int i = size; i > pos; i--) {
                 myArray[i] = myArray[i - 1];
             }
@@ -202,9 +202,9 @@ int vector<T>::mycapacity() {
     return this->capacity;
 }
 template<class T>
-T* vector<T>:: operator [](int pos)
+T vector<T>:: operator [](int pos)
         {
-            return this->get(pos);
+            return *this->get(pos);
         }
 /*
 template<class T>
