@@ -18,7 +18,7 @@ public:
     void pushback(const T& element);
     //void pushfront(T element);
     void Recapacity(int size);
-    void resize(int size);
+    //void resize(int size);
     T* get(int pos);
     void erase(int pos);
     void display();
@@ -65,6 +65,10 @@ void vector<T>::insert(const T& element, int pos)
             myArray[pos] = element;
             size++;
         }
+        else if(pos>capacity){
+            cerr<<"can't insert in such location "<<endl;
+        }
+
     }
     else {
         cerr << "out of boundary insertion" << endl;
@@ -163,10 +167,12 @@ template<class T>
 int vector<T> ::mysize() {
     return size;
 }
+/*
 template<class T>
 void vector<T>::resize(int size) {
     this->size = size;
 }
+*/
 
 template<class T>
 void vector<T>::Recapacity(int newsize)

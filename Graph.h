@@ -46,7 +46,7 @@ public:
     void removeVertex(int num);
     //void removeEdgeInBetween(int from, int to);
     void printShortestPathfrom(int from, int to);
-    //void display();
+    void display();
     void displayAdjacencylist();
     //void MakeAdjList();
     int size;
@@ -146,7 +146,7 @@ void Graph<T>::addVertex(T data)
 
 
     }
-    AdjacencyList.resize(numVertices);
+//    AdjacencyList.resize(numVertices);
 
     // ConnectionList.get()
     //vector<int> adjindex;
@@ -208,26 +208,29 @@ void Graph<T>::removeVertex(int num)//need modifications
         cout << " no vertex of number " << num << " was found to be erased" << endl;
     }
 }
-//template<class T>
-/*void Graph<T>::display()
+template<class T>
+void Graph<T>::display()
 {
-    //MakeAdjList();
-    cout << "vertex num:		connected to" << endl;
-    for (int i = 0; i < numVertices; i++)
-    {
-
-        cout << "vertex " << i << " connected with";
-        //    ConnectionList.get(i)->display();
-        cout << endl;
-    }
-}*/
+   for(int i=0;i<AdjacencyList.mysize();i++)
+   {
+       cout<<" vertex number "<<i<<" connected with : ";
+       for(int j=0;j<AdjacencyList[i].mysize();j++)
+       {
+           if(AdjacencyList[i][j]!=0)
+           {
+               cout<<"vertex " <<j<<" by distance "<< AdjacencyList[i][j]<<" , ";
+           }
+       }
+       cout<<endl;
+   }
+}
 template<class T>
 void Graph<T>::displayAdjacencylist()
 {
     cout << "adjacency list is" << endl;
     for (int i = 0; i < numVertices; i++)
     {
-        AdjacencyList.get(i)->display();
+        AdjacencyList[i].display();
         cout << endl;
     }
 
@@ -250,11 +253,11 @@ Edge& Edge:: operator=(const Edge RHS) {
 }
 template<class T>
 void Graph<T>::printShortestPathfrom(int from, int to)
-{//Dijkstra algorithm
-
+{
+    //Dijkstra algorithm
     bool* visited = new bool[numVertices];
     int* distances = new int[numVertices];
-
+    int* previousvertex = new int[numVertices];
 
     for (int i = 0; i < numVertices; i++)
     {
@@ -262,9 +265,6 @@ void Graph<T>::printShortestPathfrom(int from, int to)
         distances[i] = INT_MAX;
     }
     distances[from] = 0;
-
-
-
     //visited[leastindex] = 1;
     for (int i = 0; i < numVertices - 1; i++)
     {
@@ -273,24 +273,40 @@ void Graph<T>::printShortestPathfrom(int from, int to)
         visited[leastindex] = true;
         for (int j = 0; j < numVertices; j++)
         {
-            if ((AdjacencyList[leastindex][j] != 0) && distances[leastindex]!=INT_MAX /*to avoid overflow*/&& !visited[j] && (AdjacencyList[leastindex][j] + distances[leastindex] < distances[j]))
-
+            if ((AdjacencyList[leastindex][j] != 0) && distances[leastindex]!=INT_MAX /*to avoid overflow*/
+            && !visited[j] && (AdjacencyList[leastindex][j] + distances[leastindex] < distances[j]))
             {
                 distances[j] = *AdjacencyList.get(leastindex)->get(j) + distances[leastindex];
-                cout << "meh" << *AdjacencyList.get(leastindex)->get(j) << endl;
+                previousvertex[j]=leastindex;
+               // cout << "meh" << *AdjacencyList.get(leastindex)->get(j) << endl;
             }
             // cout<<distances[j]<<endl;
-
         }
     }
     for (int i = 0; i < numVertices; i++)
     {
-
-        cout << "dist of " << i << " is " << ((distances[i] != INT_MAX) ? to_string(distances[i]) : "no path found") << endl;
+        cout << "distance of " << i << "from source "<<from<< " is " << ((distances[i] != INT_MAX) ? to_string(distances[i]) : "no path found") << endl;
     }
+    int CurrentlyStandingAtNode=to;
+    if(distances[to]!=INT_MAX)
+        {
+        cout<<"path is:"<<endl;
+        while (CurrentlyStandingAtNode!=from)
+        {
+         cout<<CurrentlyStandingAtNode<<" <- ";
+            CurrentlyStandingAtNode=previousvertex[CurrentlyStandingAtNode];
+        }
+        cout<<from<<endl;
+        }
+    else
+        {
+        cout<<"sadly no path for your destination"<<endl;
+        }
     delete[]visited;
     delete[]distances;
+    delete[]previousvertex;
 }
+
 template<class T>
 int Graph<T>::LeastDistanceindex(int distances[], bool visited[])
 {
@@ -300,6 +316,7 @@ int Graph<T>::LeastDistanceindex(int distances[], bool visited[])
     {
         if (distances[i] <= leastdistance && visited[i] == false)
         {
+
             leastdistance = distances[i];
             leastindex = i;
         }

@@ -102,7 +102,7 @@ int main()
     omar.ConnectBetween(3, 4, 7);
     omar.ConnectBetween(4, 3, 9);
     omar.ConnectBetween(2, 4, 2);
-    ////  omar.display();
+     omar.display();
     ////omar.displayAdjacencylist();
     ////cout << "vertices size" << omar.vertices.mysize() << endl;
     ////omar.removeVertex(2);
