@@ -65,8 +65,8 @@ void vector<T>::insert(const T& element, int pos)
             myArray[pos] = element;
             size++;
         }
-        else if(pos>capacity){
-            cerr<<"can't insert in such location "<<endl;
+        else if (pos > capacity) {
+            cerr << "can't insert in such location " << endl;
         }
 
     }
@@ -79,14 +79,14 @@ template<class T>
 vector<T>::vector(int capaicty) :capacity(capaicty), size(0)
 {
     myArray = new(nothrow) T[capaicty];
-    if (myArray=NULL)
+    if (myArray = NULL)
     {
-        cerr<<"array not allocated"<<endl;
+        cerr << "array not allocated" << endl;
     }
     else
-        {
-        cout<<"array allocated with capacity "<<capaicty<<endl;
-        }
+    {
+        cout << "array allocated with capacity " << capaicty << endl;
+    }
 }
 template<class T>
 void vector<T>::set(T element, int pos)
@@ -95,7 +95,7 @@ void vector<T>::set(T element, int pos)
 }
 
 template<class T>
-void vector<T>::pushback(const T&  element)
+void vector<T>::pushback(const T& element)
 {
     this->insert(element, this->mysize());
     /* if(size==capacity)
@@ -106,7 +106,7 @@ void vector<T>::pushback(const T&  element)
      size++;*/
 }
 template<class T>
-void vector<T>:: NewVector(int capacity){*this= vector<T>(capacity);}
+void vector<T>::NewVector(int capacity) { *this = vector<T>(capacity); }
 
 //template<class T>
 //void vector<T>::pushfront(T element)
@@ -141,9 +141,9 @@ void vector<T>::display() {
 template<class T>
 T* vector<T>::get(int pos)
 {
-if(pos>=0&&pos<size) {
-    return &myArray[pos];
-}
+    if (pos >= 0 && pos < size) {
+        return &myArray[pos];
+    }
 
 }
 template<class T>
@@ -170,7 +170,7 @@ int vector<T> ::mysize() {
 /*
 template<class T>
 void vector<T>::resize(int size) {
-    this->size = size;
+	this->size = size;
 }
 */
 
@@ -190,8 +190,8 @@ void vector<T>::Recapacity(int newsize)
         {
             size = newsize;
         }
-        else{
-            size=size;
+        else {
+            size = size;
         }
         T* arr = new (nothrow)T[size];
 
@@ -209,7 +209,7 @@ void vector<T>::Recapacity(int newsize)
 template<class T>
 vector<T>& vector<T>:: operator =(const vector < T >& RHS)
 {
-    if(RHS.size!= this->size) {
+    if (RHS.size != this->size) {
         delete[] this->myArray;
         this->myArray = new(nothrow) T[RHS.size];
     }

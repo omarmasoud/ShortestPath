@@ -7,7 +7,9 @@
 
 using namespace std;
 int main()
-{// trying normal vectors and their operations
+{
+    srand(time(0));
+    // trying normal vectors and their operations
     //vector<int> omar111;
     //omar111.pushback(1);
     //omar111.pushback(12);
@@ -75,7 +77,7 @@ int main()
 //}
 
     //trying graphs and adjacency list
-  /*  Graph<int> omar(50);
+    Graph<int> omar;
     for (int i = 0; i < 50; i++) {
         omar.addVertex(rand());
     }
@@ -85,14 +87,14 @@ int main()
         omar.ConnectBetween(rand()%50, rand() % 50, (rand()%200)+(100));
     }
     omar.displayAdjacencylist();
-    omar.printShortestPathfrom(0, 3);*/
+    omar.printShortestPathfrom(0, 3);
     //for(int i=0;i<100;i++)
     //{
     //	omar.ConnectBetween(rand()%50, rand() % 50, rand()%200);
     //}
-    Graph<int> omar(5);
+    /*Graph<int> omar;
     for (int i = 0; i < 5; i++) {
-    	omar.addVertex(rand());
+        omar.addVertex(rand());
     }
     omar.ConnectBetween(0, 2, 3);
     omar.ConnectBetween(1, 2, 1);
@@ -102,11 +104,12 @@ int main()
     omar.ConnectBetween(3, 4, 7);
     omar.ConnectBetween(4, 3, 9);
     omar.ConnectBetween(2, 4, 2);
-     omar.display();
+    omar.display();*/
     ////omar.displayAdjacencylist();
     ////cout << "vertices size" << omar.vertices.mysize() << endl;
     ////omar.removeVertex(2);
     //// omar.display();
+    omar.removeVertex(10);
     omar.displayAdjacencylist();
     omar.printShortestPathfrom(0, 3);
 
