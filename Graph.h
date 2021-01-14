@@ -1,6 +1,8 @@
 #pragma once
 #include"Vector.h"
+
 #include <limits.h>
+#include<string>
 template<class T>
 class Vertex
 {
@@ -43,10 +45,10 @@ public:
     void ConnectBetween(int from, int to, int weight);
     void removeVertex(int num);
     //void removeEdgeInBetween(int from, int to);
-    [[noreturn]] void printShortestPathfrom(int from, int to);
-    void display();
+    void printShortestPathfrom(int from, int to);
+    //void display();
     void displayAdjacencylist();
-    void MakeAdjList();
+    //void MakeAdjList();
     int size;
     //vector<vector<int>>  ConnectionList;
     vector<vector<int>>  AdjacencyList;
@@ -76,29 +78,52 @@ Edge::Edge()
 template<class T>
 Graph<T>::Graph(int size) :numVertices(0), size(size)
 {
-    //cout<<"constructing graph"<<endl;
-    if (size > AdjacencyList.mycapacity())
+    cout << "constructing graph" << endl;
+    //Debugging
+    /*  if (size > AdjacencyList.mycapacity())
+      {
+          AdjacencyList.Recapacity(size);
+         AdjacencyList.resize(size);
+      }*/
+    /*AdjacencyList=vector<vector<int>>(size);
+    cout<<"adj list capacity is"<<AdjacencyList.mycapacity()<<"size: "<<AdjacencyList.mysize();
+        cout<<"constructing internals graph"<<endl;
+    for(int i=0;i<size;i++)
     {
-        AdjacencyList.Recapacity(size);
-        AdjacencyList.resize(size);
-    }
+        *AdjacencyList.get(i)=vector<int>(size);
 
+    }*/
+    /*cout<<"adj list capacity is"<<AdjacencyList.get(0)->mycapacity()<<"size: "<<AdjacencyList.get(0)->mysize();
+    cout<<"done constructing"<<endl;
+   // AdjacencyList.get(0)->NewVector(size);
 
-    //     cout<<"constructing lists1"<<endl;
-
-
+cout<<"capacity"<<AdjacencyList.mycapacity()<<endl;
+    cout<<"size"<<AdjacencyList.get(1)->mysize()<<endl;
+         cout<<"constructing lists1"<<endl;*/
+    //AdjacencyList.get(0)->pushback(404);
+    //cout<<*AdjacencyList.get(0)->get(0)<<"size is"<< endl;
 
     for (int i = 0; i < size; i++)
     {
-        //   cout<<"constructing lists"<<endl;
+        vector<int> adj;
+        AdjacencyList.pushback(adj);
+        cout << "constructing adj lists " << i << endl;
+    }
+    for (int i = 0; i < size; i++)
+    {
         for (int j = 0; j < size; j++) {
             AdjacencyList.get(i)->pushback(0);
+            cout << "constructing adj lists " << i << " " << j << endl;
         }
     }
+
+    cout << *AdjacencyList.get(1)->get(0) << "lalal is" << endl;
+    cout << "constructing lists2" << endl;
 }
 template<class T>
 void Graph<T>::addVertex(T data)
 {
+    cout << "added vertex number " << numVertices << endl;
     Vertex<T> ver(numVertices++, data);
     vertices.pushback(ver);
 
@@ -137,7 +162,7 @@ void Graph<T>::ConnectBetween(int from, int to, int weight)
     {*/
 
     Edge edge(from, to, weight);
-    edges.pushback(edge);
+     edges.pushback(edge);
     //  ConnectionList.get(from)->pushback(to);
     *AdjacencyList.get(from)->get(to) = weight;
 
@@ -183,8 +208,8 @@ void Graph<T>::removeVertex(int num)//need modifications
         cout << " no vertex of number " << num << " was found to be erased" << endl;
     }
 }
-template<class T>
-void Graph<T>::display()
+//template<class T>
+/*void Graph<T>::display()
 {
     //MakeAdjList();
     cout << "vertex num:		connected to" << endl;
@@ -195,7 +220,7 @@ void Graph<T>::display()
         //    ConnectionList.get(i)->display();
         cout << endl;
     }
-}
+}*/
 template<class T>
 void Graph<T>::displayAdjacencylist()
 {
@@ -236,7 +261,6 @@ void Graph<T>::printShortestPathfrom(int from, int to)
         visited[i] = false;
         distances[i] = INT_MAX;
     }
-
     distances[from] = 0;
 
 
@@ -245,24 +269,24 @@ void Graph<T>::printShortestPathfrom(int from, int to)
     for (int i = 0; i < numVertices - 1; i++)
     {
         int leastindex = LeastDistanceindex(distances, visited);
-     //   cout<<"least index is "<<LeastDistanceindex(distances, visited)<<endl;
+        //   cout<<"least index is "<<LeastDistanceindex(distances, visited)<<endl;
         visited[leastindex] = true;
         for (int j = 0; j < numVertices; j++)
         {
-            if ((*AdjacencyList.get(leastindex)->get(j)!= 0)&&(*AdjacencyList.get(leastindex)->get(j) + distances[leastindex] < distances[j])
-                && !visited[j] )
+            if ((AdjacencyList[leastindex][j] != 0) && distances[leastindex]!=INT_MAX /*to avoid overflow*/&& !visited[j] && (AdjacencyList[leastindex][j] + distances[leastindex] < distances[j]))
 
             {
                 distances[j] = *AdjacencyList.get(leastindex)->get(j) + distances[leastindex];
-                cout<<"meh" <<*AdjacencyList.get(leastindex)->get(j)<<endl;
+                cout << "meh" << *AdjacencyList.get(leastindex)->get(j) << endl;
             }
-           // cout<<distances[j]<<endl;
+            // cout<<distances[j]<<endl;
 
         }
     }
     for (int i = 0; i < numVertices; i++)
     {
-        cout << "dist of " << i << " is " << distances[i] << endl;
+
+        cout << "dist of " << i << " is " << ((distances[i] != INT_MAX) ? to_string(distances[i]) : "no path found") << endl;
     }
     delete[]visited;
     delete[]distances;
@@ -280,6 +304,7 @@ int Graph<T>::LeastDistanceindex(int distances[], bool visited[])
             leastindex = i;
         }
     }
-    cout<<"least "<<leastindex<<endl;
+    //debugging
+    //cout << "least " << leastindex << endl;
     return leastindex;
 }

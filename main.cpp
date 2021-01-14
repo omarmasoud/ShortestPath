@@ -75,12 +75,25 @@ int main()
 //}
 
     //trying graphs and adjacency list
-    Graph<int> omar(5);
-    for (int i = 0; i < 5; i++) {
+  /*  Graph<int> omar(50);
+    for (int i = 0; i < 50; i++) {
         omar.addVertex(rand());
     }
+    for(int i=0;i<100;i++)
+    {
 
-    omar.ConnectBetween(0, 1, 10);
+        omar.ConnectBetween(rand()%50, rand() % 50, (rand()%200)+(100));
+    }
+    omar.displayAdjacencylist();
+    omar.printShortestPathfrom(0, 3);*/
+    //for(int i=0;i<100;i++)
+    //{
+    //	omar.ConnectBetween(rand()%50, rand() % 50, rand()%200);
+    //}
+    Graph<int> omar(5);
+    for (int i = 0; i < 5; i++) {
+    	omar.addVertex(rand());
+    }
     omar.ConnectBetween(0, 2, 3);
     omar.ConnectBetween(1, 2, 1);
     omar.ConnectBetween(2, 1, 4);
@@ -89,12 +102,12 @@ int main()
     omar.ConnectBetween(3, 4, 7);
     omar.ConnectBetween(4, 3, 9);
     omar.ConnectBetween(2, 4, 2);
-    //  omar.display();
+    ////  omar.display();
+    ////omar.displayAdjacencylist();
+    ////cout << "vertices size" << omar.vertices.mysize() << endl;
+    ////omar.removeVertex(2);
+    //// omar.display();
     omar.displayAdjacencylist();
-    //cout << "vertices size" << omar.vertices.mysize() << endl;
-    //omar.removeVertex(2);
-    // omar.display();
-//	omar.displayAdjacencylist();
     omar.printShortestPathfrom(0, 3);
 
 
