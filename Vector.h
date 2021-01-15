@@ -9,16 +9,13 @@ public:
     T& operator [](int pos);
     void set(T element, int pos);
     ~vector();
-    void NewVector(int capacity);
     vector(int capaicty);
     int mysize();
     int mycapacity();
     vector();
     void insert(const T& element, int pos);
     void pushback(const T& element);
-    //void pushfront(T element);
     void Recapacity(int size);
-    //void resize(int size);
     T* get(int pos);
     void erase(int pos);
     void display();
@@ -105,8 +102,7 @@ void vector<T>::pushback(const T& element)
      myArray[size] = element;
      size++;*/
 }
-template<class T>
-void vector<T>::NewVector(int capacity) { *this = vector<T>(capacity); }
+
 
 //template<class T>
 //void vector<T>::pushfront(T element)
