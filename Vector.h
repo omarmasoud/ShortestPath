@@ -226,10 +226,11 @@ template<class T>
 vector<T> :: ~vector()
 {
     delete[]myArray;
-    // cout<<"vector destructor"<<endl;
+    //cout<<"vector destructor"<<endl;
 }
 template<class T>
-int vector<T>::mycapacity() {
+int vector<T>::mycapacity()
+{
     return this->capacity;
 }
 template<class T>

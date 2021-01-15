@@ -1,6 +1,5 @@
 #pragma once
 #include"Vector.h"
-
 #include <limits.h>
 #include<string>
 template<class T>
@@ -10,10 +9,8 @@ public:
     // vector<int> adj;
     // Vertex<T>& operator=(const Vertex<T>RHS);
     int num;
-
     //int previousVisitor;//might be used in shortest path algorithm
     T data;
-    Vertex<T>* next;
     Vertex(int num, T data);
     Vertex();
     Vertex<T>& operator=(const Vertex<T>& RHS);
@@ -42,17 +39,18 @@ public:
     vector<Vertex<T>> vertices;
     Graph();
     //Graph(int size);
+    ~Graph();
+    Graph<T>& operator = (Graph<T>& RHS);
     void addVertex(T data);
     void ConnectBetween(int from, int to, int weight);
     void removeVertex(int num);
-    //void removeEdgeInBetween(int from, int to);
+    void removeEdgeInBetween(int from, int to);
     void printShortestPathfrom(int from, int to);
     void display();
-    void displayAdjacencylist();
-    //void MakeAdjList();
-    int size;
-    //vector<vector<int>>  ConnectionList;
-    vector<vector<int>>  AdjacencyList;
+    void displayAdjacencyMatrix();
+    int size();
+
+    vector<vector<int>>  AdjacencyMatrix;
 
 };
 #include<new>
@@ -62,7 +60,6 @@ using namespace std;
 template<class T>
 Vertex<T>::Vertex(int num, T data) :num(num), data(data)
 {
-    // vector<int> adj();
 }
 template<class T>
 Vertex<T>::Vertex() {}
@@ -76,104 +73,57 @@ Edge::Edge()
 {
 }
 template<class T>
-Graph<T>::Graph() :numVertices(0), size(0) {}
-//template<class T>
-//Graph<T>::Graph(int size) : numVertices(0), size(size)
-//{
-//	cout << "constructing graph" << endl;
-//	//Debugging
-//	/*  if (size > AdjacencyList.mycapacity())
-//	  {
-//		  AdjacencyList.Recapacity(size);
-//		 AdjacencyList.resize(size);
-//	  }*/
-//	  /*AdjacencyList=vector<vector<int>>(size);
-//	  cout<<"adj list capacity is"<<AdjacencyList.mycapacity()<<"size: "<<AdjacencyList.mysize();
-//		  cout<<"constructing internals graph"<<endl;
-//	  for(int i=0;i<size;i++)
-//	  {
-//		  *AdjacencyList.get(i)=vector<int>(size);
-//
-//	  }*/
-//	  /*cout<<"adj list capacity is"<<AdjacencyList.get(0)->mycapacity()<<"size: "<<AdjacencyList.get(0)->mysize();
-//	  cout<<"done constructing"<<endl;
-//	 // AdjacencyList.get(0)->NewVector(size);
-//
-//  cout<<"capacity"<<AdjacencyList.mycapacity()<<endl;
-//	  cout<<"size"<<AdjacencyList.get(1)->mysize()<<endl;
-//		   cout<<"constructing lists1"<<endl;*/
-//		   //AdjacencyList.get(0)->pushback(404);
-//		   //cout<<*AdjacencyList.get(0)->get(0)<<"size is"<< endl;
-//
-//	for (int i = 0; i < size; i++)
-//	{
-//		vector<int> adj;
-//		AdjacencyList.pushback(adj);
-//		cout << "constructing adj lists " << i << endl;
-//	}
-//	for (int i = 0; i < size; i++)
-//	{
-//		for (int j = 0; j < size; j++) {
-//			AdjacencyList.get(i)->pushback(0);
-//			cout << "constructing adj lists " << i << " " << j << endl;
-//		}
-//	}
-//
-//	cout << *AdjacencyList.get(1)->get(0) << "lalal is" << endl;
-//	cout << "constructing lists2" << endl;
-//}
+Graph<T>::Graph() :numVertices(0) {}
+
 template<class T>
 void Graph<T>::addVertex(T data)
 {
-    cout << "added vertex number " << numVertices << endl;
+    //debugging
+   // cout << "added vertex number " << numVertices << endl;
     Vertex<T> ver(numVertices++, data);
     vertices.pushback(ver);
-    int oldsize = AdjacencyList.mysize();
     vector<int> adj;
-    AdjacencyList.pushback(adj);
-
-    // AdjacencyList.Recapacity(AdjacencyList.mycapacity() + 10);
-
-    // vector<int>newadj,newcon;
-
-    //      ConnectionList.resize(numVertices);
-
-
-
+    AdjacencyMatrix.pushback(adj);
     for (int i = 0; i < numVertices; i++)
     {
-        AdjacencyList.get(i)->pushback(0);
+        AdjacencyMatrix.get(i)->pushback(0);
     }
     for (int i = 0; i < numVertices-1; i++)
     {
-        AdjacencyList.get(numVertices-1)->pushback(0);
+        AdjacencyMatrix.get(numVertices - 1)->pushback(0);
     }
 
-    cout << "added vertex number " << numVertices << endl;
-
-
-    //    AdjacencyList.resize(numVertices);
-
-    // ConnectionList.get()
-    //vector<int> adjindex;
-    //ConnectionList.pushback(adjindex);
-    /*if (vertices.mysize() > 10) {
-        ConnectionList.resize(vertices.mysize());
-    }*/
 }
 template<class T>
 void Graph<T>::ConnectBetween(int from, int to, int weight)
 {
-
     if ((from <= numVertices - 1 && from >= 0) && (to <= numVertices - 1 && to >= 0) && (from != to))
     {
+    for(int i=0 ;i<edges.mysize();i++)
+    {
+        //checks if there already exists a connection
+        //if it is longer we delete it and if shorter we keep it
+        if((edges[i].ter1==from)&&(edges[i].ter2==to)&&edges[i].weight<weight)
+        {
+            cout<<from<<" and "<<to<<" are linked already with weight "<<*AdjacencyMatrix.get(from)->get(to)<<endl;
+            cout<<"can't insert a link with weight "<<weight<<endl;
+            //already found and you got to exit
+            return;
+        }
+        else if((edges[i].ter1==from)&&(edges[i].ter2==to)&&edges[i].weight>weight)
+        {
+            edges.erase(i);
+            break;
+        }
+    }
+
         Edge edge(from, to, weight);
         edges.pushback(edge);
-        *AdjacencyList.get(from)->get(to) = weight;
+        *AdjacencyMatrix.get(from)->get(to) = weight;
     }
     else
     {
-        cout<<"can't insert in this location"<<endl;
+        cout<<"can't insert a link between "<<from<<" and "<<to<< "with weight "<<weight<<endl;
     }
 }
 template<class T>
@@ -200,18 +150,13 @@ void Graph<T>::removeVertex(int num)//need modifications
             vertices.get(k)->num = vertices.get(k)->num - 1;
         }
 
-        AdjacencyList.erase(num);
-        for (int i = 0; i < AdjacencyList.mysize(); i++)
+        AdjacencyMatrix.erase(num);
+        for (int i = 0; i < AdjacencyMatrix.mysize(); i++)
         {
-            AdjacencyList.get(i)->erase(num);
+            AdjacencyMatrix.get(i)->erase(num);
         }
-
-
-
         //   ConnectionList.erase(num);
         numVertices--;
-
-
     }
     else
     {
@@ -221,26 +166,26 @@ void Graph<T>::removeVertex(int num)//need modifications
 template<class T>
 void Graph<T>::display()
 {
-    for (int i = 0; i < AdjacencyList.mysize(); i++)
+    for (int i = 0; i < AdjacencyMatrix.mysize(); i++)
     {
         cout << " vertex number " << i << " connected with : ";
-        for (int j = 0; j < AdjacencyList[i].mysize(); j++)
+        for (int j = 0; j < AdjacencyMatrix[i].mysize(); j++)
         {
-            if (AdjacencyList[i][j] != 0)
+            if (AdjacencyMatrix[i][j] != 0)
             {
-                cout << "vertex " << j << " by distance " << AdjacencyList[i][j] << " , ";
+                cout << "vertex " << j << " by distance " << AdjacencyMatrix[i][j] << " , ";
             }
         }
         cout << endl;
     }
 }
 template<class T>
-void Graph<T>::displayAdjacencylist()
+void Graph<T>::displayAdjacencyMatrix()
 {
     cout << "adjacency list is" << endl;
     for (int i = 0; i < numVertices; i++)
     {
-        AdjacencyList[i].display();
+        AdjacencyMatrix[i].display();
         cout << endl;
     }
 
@@ -249,7 +194,6 @@ void Graph<T>::displayAdjacencylist()
 template<class T>
 Vertex<T>& Vertex<T>:: operator=(const Vertex<T>& RHS) {
     this->data = RHS.data;
-    this->next = RHS.next;
     this->num = RHS.num;
     //  this->adj = RHS.adj;
     return *this;
@@ -283,12 +227,12 @@ void Graph<T>::printShortestPathfrom(int from, int to)
         visited[leastindex] = true;
         for (int j = 0; j < numVertices; j++)
         {
-            if ((AdjacencyList[leastindex][j] != 0) && distances[leastindex] != INT_MAX /*to avoid overflow*/
-                && !visited[j] && (AdjacencyList[leastindex][j] + distances[leastindex] < distances[j]))
+            if ((AdjacencyMatrix[leastindex][j] != 0) && distances[leastindex] != INT_MAX /*to avoid overflow*/
+                && !visited[j] && (AdjacencyMatrix[leastindex][j] + distances[leastindex] < distances[j]))
             {
-                distances[j] = *AdjacencyList.get(leastindex)->get(j) + distances[leastindex];
+                distances[j] = *AdjacencyMatrix.get(leastindex)->get(j) + distances[leastindex];
                 previousvertex[j] = leastindex;
-                // cout << "meh" << *AdjacencyList.get(leastindex)->get(j) << endl;
+                // cout << "meh" << *AdjacencyMatrix.get(leastindex)->get(j) << endl;
             }
             // cout<<distances[j]<<endl;
         }
@@ -300,7 +244,7 @@ void Graph<T>::printShortestPathfrom(int from, int to)
     int CurrentlyStandingAtNode = to;
     if (distances[to] != INT_MAX)
     {
-        cout << "shortest path from " << from << " to " << to << " is:" << endl;
+        cout << "shortest path from " << from << " to " << to<<" of weight " <<distances[to]<< " is: " << endl;
         while (CurrentlyStandingAtNode != from)
         {
             cout << CurrentlyStandingAtNode << " <- ";
@@ -335,3 +279,93 @@ int Graph<T>::LeastDistanceindex(int distances[], bool visited[])
     //cout << "least " << leastindex << endl;
     return leastindex;
 }
+template<class T>
+void Graph<T>::removeEdgeInBetween(int from, int to)
+{
+    for(int i=0;i<edges.mysize();i++)
+    {
+        if ((edges[i].ter1==from)&&(edges[i].ter2==to))
+        {
+         edges.erase(i);
+         *AdjacencyMatrix.get(from)->get(to)=0;//set weight by zero
+        }
+    }
+}
+template<class T>
+int Graph<T>:: size()
+{
+    return numVertices;
+}
+template<class T>
+ Graph<T>:: ~Graph()
+ {
+     ////nothing needs to be put in here really since the only dynamically
+   //// allocated memories are vectors and their destructors are called by default
+
+ }
+//overloading = operator
+template<class T>
+Graph<T>& Graph<T>:: operator = (Graph<T>& RHS)
+{
+    this->numVertices=RHS.numVertices;
+    this->vertices=RHS.vertices;
+    this->edges=RHS.edges;
+    this->AdjacencyMatrix=RHS.AdjacencyMatrix;
+    return *this;
+}
+ //overloading << operator
+template<class T>
+ostream& operator<<(ostream& out ,Graph<T>& tobePrinted)
+{
+    tobePrinted.display();
+    return out;
+
+}
+
+////this commented code was just a trial for another constructor and using some inconvinient methods
+
+//template<class T>
+//Graph<T>::Graph(int size) : numVertices(0), size(size)
+//{
+//	cout << "constructing graph" << endl;
+//	//Debugging
+//	/*  if (size > AdjacencyMatrix.mycapacity())
+//	  {
+//		  AdjacencyMatrix.Recapacity(size);
+//		 AdjacencyMatrix.resize(size);
+//	  }*/
+//	  /*AdjacencyMatrix=vector<vector<int>>(size);
+//	  cout<<"adj list capacity is"<<AdjacencyMatrix.mycapacity()<<"size: "<<AdjacencyMatrix.mysize();
+//		  cout<<"constructing internals graph"<<endl;
+//	  for(int i=0;i<size;i++)
+//	  {
+//		  *AdjacencyMatrix.get(i)=vector<int>(size);
+//
+//	  }*/
+//	  /*cout<<"adj list capacity is"<<AdjacencyMatrix.get(0)->mycapacity()<<"size: "<<AdjacencyMatrix.get(0)->mysize();
+//	  cout<<"done constructing"<<endl;
+//	 // AdjacencyMatrix.get(0)->NewVector(size);
+//
+//  cout<<"capacity"<<AdjacencyMatrix.mycapacity()<<endl;
+//	  cout<<"size"<<AdjacencyMatrix.get(1)->mysize()<<endl;
+//		   cout<<"constructing lists1"<<endl;*/
+//		   //AdjacencyMatrix.get(0)->pushback(404);
+//		   //cout<<*AdjacencyMatrix.get(0)->get(0)<<"size is"<< endl;
+//
+//	for (int i = 0; i < size; i++)
+//	{
+//		vector<int> adj;
+//		AdjacencyMatrix.pushback(adj);
+//		cout << "constructing adj lists " << i << endl;
+//	}
+//	for (int i = 0; i < size; i++)
+//	{
+//		for (int j = 0; j < size; j++) {
+//			AdjacencyMatrix.get(i)->pushback(0);
+//			cout << "constructing adj lists " << i << " " << j << endl;
+//		}
+//	}
+//
+//	cout << *AdjacencyMatrix.get(1)->get(0) << "lalal is" << endl;
+//	cout << "constructing lists2" << endl;
+//}
