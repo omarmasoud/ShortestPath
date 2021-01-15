@@ -4,8 +4,7 @@ template<class T>
 class vector {
 public:
     vector<T>& operator =(const vector < T >& RHS);
-    /* vector with initial values*/
-    // vector(T defaultvalue);
+
     T& operator [](int pos);
     void set(T element, int pos);
     ~vector();
